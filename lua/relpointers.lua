@@ -49,12 +49,13 @@ local function render_pointers_virt(buf_nr, namespace, line_nr)
     local virtual_text = { { line_nr, "RelPointersHL", } }
 
     if (line_nr <= vim.fn.line("$")) then
-        vim.api.nvim_buf_set_extmark(buf_nr, namespace, line_nr - 1, -1, { virt_text = virtual_text })
+        vim.api.nvim_buf_set_extmark(buf_nr, namespace, line_nr - 1, -1,
+            { virt_text_pos = "overlay", virt_text = virtual_text })
     end
 end
 
 local function render_pointers_column(buf_nr, namespace, line_nr)
-    local virtual_text = { { line_nr, "RelPointersHL", } }
+    local virtual_text = { { " ", "RelPointersHL", } }
     local line_content = vim.fn.getline(line_nr)
     local cursor_position = vim.fn.getcurpos()[3]
 
@@ -62,11 +63,11 @@ local function render_pointers_column(buf_nr, namespace, line_nr)
         vim.fn.matchaddpos("RelPointersHL", { { line_nr, cursor_position, 1 } })
         if (#line_content < cursor_position) then
             vim.api.nvim_buf_set_extmark(buf_nr, namespace, line_nr - 1, 0,
-                { virt_text = virtual_text })
+                { virt_text_pos = "overlay", virt_text = virtual_text, virt_text_win_col = cursor_position - 1 })
         end
     elseif (line_nr <= vim.fn.line("$")) then
         vim.api.nvim_buf_set_extmark(buf_nr, namespace, line_nr - 1, 0,
-            { virt_text = virtual_text })
+            { virt_text_pos = "overlay", virt_text = virtual_text, virt_text_win_col = cursor_position - 1 })
     end
 end
 
