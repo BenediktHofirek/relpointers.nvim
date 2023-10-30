@@ -6,7 +6,10 @@ local config = {
 
     hl_properties = { underline = true },
 
-    pointer_style = "virtual",
+    pointer_style = "line region",
+
+    virtual_pointer_position = -4,
+    virtual_pointer_text = "@",
 
     enable_autocmd = true,
     autocmd_pattern = "*",
@@ -46,11 +49,11 @@ local function render_pointers_match(buf_nr, namespace, line_nr)
 end
 
 local function render_pointers_virt(buf_nr, namespace, line_nr)
-    local virtual_text = { { line_nr, "RelPointersHL", } }
+    local virtual_text = { { config.virtual_pointer_text, "RelPointersHL", } }
 
     if (line_nr <= vim.fn.line("$")) then
-        vim.api.nvim_buf_set_extmark(buf_nr, namespace, line_nr - 1, -1,
-            { virt_text_pos = "overlay", virt_text = virtual_text })
+        vim.api.nvim_buf_set_extmark(buf_nr, namespace, line_nr - 1, 0,
+            { virt_text_pos = "overlay", virt_text = virtual_text, virt_text_win_col = config.virtual_pointer_position })
     end
 end
 
