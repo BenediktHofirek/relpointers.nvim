@@ -49,8 +49,7 @@ local function render_pointers_virt(buf_nr, namespace, line_nr)
     local virtual_text = { { line_nr, "RelPointersHL", } }
 
     if (line_nr <= vim.fn.line("$")) then
-        vim.api.nvim_buf_set_extmark(buf_nr, namespace, line_nr - 1, 0,
-            { virt_text = virtual_text })
+        vim.api.nvim_buf_set_extmark(buf_nr, namespace, line_nr - 1, -1, { virt_text = virtual_text })
     end
 end
 
